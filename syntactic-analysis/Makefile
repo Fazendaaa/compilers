@@ -1,11 +1,14 @@
-all:
+all: compile run
 	echo "lorem ipsum"
 
 run:
-	echo "lorem ipsum"
+	./output
 
 compile:
-	echo "lorem ipsum"
+	bison -y -d ./src/syntactic.y
+	flex ./src/syntactic.l
+	gcc -c ./src/y.tab.c ./src/lex.yy.c
+	gcc ./src/y.tab.o ./src/lex.yy.o ./src/syntactic.c -o output
 
 docker:
 	docker build -t syntacticanalysis .
