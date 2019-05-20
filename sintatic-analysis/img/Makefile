@@ -1,5 +1,0 @@
-all:
-
-run:
-
-compile:
