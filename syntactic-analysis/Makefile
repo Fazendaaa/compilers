@@ -5,10 +5,16 @@ run:
 	./output
 
 compile:
-	bison -y -d ./src/syntactic.y
+	bison -y -d ./src/syntactic.y -o ./src/y.tab.c
 	flex ./src/syntactic.l
-	gcc -c ./src/y.tab.c ./src/lex.yy.c
-	gcc ./src/y.tab.o ./src/lex.yy.o ./src/syntactic.c -o output
+	# Jerry rig - https://github.com/westes/flex/issues/422
+	cp ./lex.yy.c ./src
+	rm ./lex.yy.c
+	# End of jerry rig
+	gcc -c ./src/y.tab.c -o ./src/y.tab.o
+	gcc -c ./src/lex.yy.c -o ./src/lex.yy.o
+	gcc -c ./src/hash.c -o ./src/hash.o
+	gcc ./src/hash.o ./src/y.tab.o ./src/lex.yy.o -o output
 
 docker:
 	docker build -t syntacticanalysis .
