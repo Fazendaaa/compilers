@@ -38,14 +38,14 @@ void yyerror(char *message) {
 }
 
 void checkReservedWord(char* yytext){
-    if (ht_get( hashtable, yytext )) {
+    if (ht_get(hashtable, yytext)) {
         printf("< %s \t\t| PALAVRA RESERVADA >\n", yytext);
     } else {
         printf("< %s \t\t| ID >\n", yytext);
     }
 }
 
-int main(){
+void initiateHashTable(void) {
     hashtable = ht_create( 65536 );
 
     ht_set(hashtable, "begin", " ");
@@ -65,7 +65,10 @@ int main(){
     ht_set(hashtable, "write", " ");
     ht_set(hashtable, "procedure", " ");
     ht_set(hashtable, "var", " ");
+}
 
+int main(){
+    initiateHashTable();
     yyparse();
 
     return 0;
