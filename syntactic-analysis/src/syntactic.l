@@ -1,4 +1,5 @@
 %{
+    #include "y.tab.h"
     #include <stdio.h>
     #include <stdlib.h>
     #include <string.h>
@@ -7,7 +8,7 @@
     * Headers
     */
     void yyerror(char *message);
-    void checkReservedWord(char *yytext);
+    int checkReservedWord(char *yytext);
 %}
 
 NUMERO [0-9]
@@ -22,13 +23,17 @@ NUM_ERRADO ([0-9]+\.[0-9]*[a-zA-Z]+([0-9]|[a-zA-Z])*|[0-9]*[a-zA-Z]+([0-9]|[a-zA
 
 %%
 
-{NUMERO}+           printf("< %d \t\t| NUM >\n",atoi(yytext));
+{NUMERO}+           {
+                        yylval = atoi(yytext);
 
-{REAL}              printf("< %f \t\t| NUM_REAL >\n",atof(yytext));
+                        return INTEGER;
+                    }
 
-":="                printf("< %s \t\t| SIMB_ASSIGN >\n", yytext);
+{REAL}              {
+                        yylval = atof(yytext);
 
-";"                 printf("< %s \t\t| SIMB_PTOCOMA >\n", yytext);
+                        return DOUBLE;
+                    }
 
 "*"                 printf("< %s \t\t| SIMB_MULT >\n", yytext);
 
@@ -62,7 +67,9 @@ NUM_ERRADO ([0-9]+\.[0-9]*[a-zA-Z]+([0-9]|[a-zA-Z])*|[0-9]*[a-zA-Z]+([0-9]|[a-zA
 
 "sen"               printf("< %s \t\t| TKN_SEN >\n", yytext);
 
-{PALAVRA}           checkReservedWord(yytext);
+{PALAVRA}           {
+                        return checkReservedWord(yytext) ? RESERVED : ID;
+                    }
 
 {COMENTARIO_ABERTO} printf("\n\n< ERRO: COMENTARIO ABERTO >\n\n");
 

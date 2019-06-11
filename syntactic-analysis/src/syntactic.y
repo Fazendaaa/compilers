@@ -15,6 +15,10 @@
     hashtable_t *hashtable;
 %}
 
+%token INTEGER DOUBLE
+%token ID RESERVED VARIABLE
+%token OPERATOR 
+
 %%
 
 program:
@@ -24,11 +28,13 @@ program:
 
 statement:
     expression                      { printf("%d\n", $1); }
-    | /* NULL */
+    | VARIABLE '=' expression       { sym[$1] = $3; }
     ;
 
 expression:
-    | /* NULL */
+    INTEGER
+    | VARIABLE                      { $$ = sym[$1]; }
+    | OPERATOR                      { $$ = sym[$1]; }
     ;
 
 %%
@@ -37,12 +43,8 @@ void yyerror(char *message) {
     fprintf(stderr, "%s\n", message);
 }
 
-void checkReservedWord(char* yytext){
-    if (ht_get(hashtable, yytext)) {
-        printf("< %s \t\t| PALAVRA RESERVADA >\n", yytext);
-    } else {
-        printf("< %s \t\t| ID >\n", yytext);
-    }
+int checkReservedWord(char* yytext){
+    return (ht_get(hashtable, yytext)) ? 1 : 0;
 }
 
 void initiateHashTable(void) {

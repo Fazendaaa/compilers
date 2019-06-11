@@ -53,9 +53,9 @@ Itens a serem avaliados:
 
 Dica: desenvolvam o trabalho com calma e atenção, aprimorando a especificação do lex.. e avaliando os impactos na análise léxica de casos reais.
 
-Trabalho Prático 2 – Análise Sintática
+# Trabalho Prático 2 – Análise Sintática
 
-Especificação:  implementar  o  analisador  sintático  para  a  linguagem  LALG,  usando  YACC  ou JAVACC. A implementação também pode ser feita manualmente.
+> Especificação:  implementar  o  analisador  sintático  para  a  linguagem  LALG,  usando  YACC  ou JAVACC. A implementação também pode ser feita manualmente.
 
 As seguintes tarefas devem ser desenvolvidas neste trabalho prático:
 

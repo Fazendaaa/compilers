@@ -21,5 +21,8 @@ docker:
 	@docker tag syntacticanalysis:latest fazenda/syntacticanalysis
 	@docker push fazenda/syntacticanalysis
 
+docs:
+	@pandoc ./REPORT.md -t html5 -o report.pdf
+
 zip:
 	echo "lorem ipsum"
