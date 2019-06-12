@@ -1,4 +1,4 @@
-all: clean
+all:
 	@bison -Wno-yacc -d ./src/syntactic.y -o ./src/y.tab.c
 	@flex ./src/syntactic.l
 	@# Jerry rig - https://github.com/westes/flex/issues/422
@@ -14,7 +14,7 @@ run:
 	@./output
 
 clean:
-	rm ./src/*.o
+	@rm ./src/*.o ./src/lex.* ./src/y.tab.*
 
 docker:
 	@docker build -t syntacticanalysis .
