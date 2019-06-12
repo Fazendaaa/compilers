@@ -12,7 +12,7 @@
 %}
 
 NUMERO [0-9]
-REAL {NUMERO}+"."{NUMERO}+
+_REAL {NUMERO}+"."{NUMERO}+
 PALAVRA [a-zA-Z][a-zA-Z0-9_]*
 NEW_LINE \n
 TAB \t
@@ -23,48 +23,140 @@ NUM_ERRADO ([0-9]+\.[0-9]*[a-zA-Z]+([0-9]|[a-zA-Z])*|[0-9]*[a-zA-Z]+([0-9]|[a-zA
 
 %%
 
-{NUMERO}+           printf("< %d \t\t| NUM >\n",atoi(yytext));
+{NUMERO}+           {
+                        printf("< %d \t\t| INTEGER >\n", atoi(yytext));
 
-{REAL}              printf("< %f \t\t| NUM_REAL >\n",atof(yytext));
+                        return INTEGER;
+                    }
 
-"*"                 printf("< %s \t\t| SIMB_MULT >\n", yytext);
+{_REAL}             {
+                        printf("< %f \t\t| REAL >\n", atof(yytext));
 
-"/"                 printf("< %s \t\t| SIMB_DIV >\n", yytext);
+                        return REAL;
+                    }
 
-"+"                 printf("< %s \t\t| SIMB_MAS >\n", yytext);
+"*"                 {
+                        printf("< %s \t\t| MULTIPLICATION >\n", yytext);
+                        printSymbol(yytext, "MULTIPLICATION");
 
-"-"                 printf("< %s \t\t| SIMB_MENOS >\n", yytext);
+                        return MULTIPLICATION;
+                    }
 
-"("                 printf("< %s \t\t| SIMB_PAA >\n", yytext);
+"/"                 {
+                        printf("< %s \t\t| SIMB_DIV >\n", yytext);
+                        printSymbol(yytext, "DIVISION");
 
-")"                 printf("< %s \t\t| SIMB_PAC >\n", yytext);
+                        return DIVISION;
+                    }
 
-":"                 printf("< %s \t\t| SIMB_DOIS_PTOS >\n", yytext);
+"+"                 {
+                        printf("< %s \t\t| SIMB_MAS >\n", yytext);
+                        printSymbol(yytext, "ADD");
 
-"."                 printf("< %s \t\t| SIMB_PTO >\n", yytext);
+                        return ADD;
+                    }
 
-">"                 printf("< %s \t\t| SIMB_MAIOR >\n", yytext);
+"-"                 {
+                        printf("< %s \t\t| SIMB_MENOS >\n", yytext);
+                        printSymbol(yytext, "SUBTRACT");
 
-"<"                 printf("< %s \t\t| SIMB_MENOR >\n", yytext);
+                        return SUBTRACT;
+                    }
 
-","                 printf("< %s \t\t| SIMB_VIRGULA >\n", yytext);
+"("                 {
+                        printf("< %s \t\t| SIMB_PAA >\n", yytext);
+                        printSymbol(yytext, "OPEN_PARENTESIS");
 
-"\""                printf("< %s \t\t| SIMB_ASPAS >\n", yytext);
+                        return OPEN_PARENTESIS;
+                    }
 
-"&&"                printf("< %s \t\t| SIMB_AND >\n", yytext);
+")"                 {
+                        printf("< %s \t\t| SIMB_PAC >\n", yytext);
+                        printSymbol(yytext, "CLOSE_PARENTESIS");
 
-"||"                printf("< %s \t\t| SIMB_OR >\n", yytext);
+                        return CLOSE_PARENTESIS;
+                    }
 
-"cos"               printf("< %s \t\t| TKN_COS >\n", yytext);
+":"                 {
+                        printf("< %s \t\t| SIMB_DOIS_PTOS >\n", yytext);
+                        printSymbol(yytext, "TWO_POINTS");
 
-"sen"               printf("< %s \t\t| TKN_SEN >\n", yytext);
+                        return TWO_POINTS;
+                    }
+
+"."                 {
+                        printf("< %s \t\t| SIMB_PTO >\n", yytext);
+                        printSymbol(yytext, "POINT");
+
+                        return POINT;
+                    }
+
+">"                 {
+                        printf("< %s \t\t| SIMB_MAIOR >\n", yytext);
+                        printSymbol(yytext, "GREATER");
+
+                        return GREATER;
+                    }
+
+"<"                 {
+                        printf("< %s \t\t| SIMB_MENOR >\n", yytext);
+                        printSymbol(yytext, "LESSER");
+
+                        return LESSER;
+                    }
+
+","                 {
+                        printf("< %s \t\t| SIMB_VIRGULA >\n", yytext);
+                        printSymbol(yytext, "COMMA");
+
+                        return COMMA;
+                    }
+
+"\""                {
+                        printf("< %s \t\t| SIMB_ASPAS >\n", yytext);
+                        printSymbol(yytext, "ASPAS");
+
+                        return ASPAS;
+                    }
+
+"&&"                {
+                        printf("< %s \t\t| SIMB_AND >\n", yytext);
+                        printSymbol(yytext, "AND");
+
+                        return AND;
+                    }
+
+"||"                {
+                        printf("< %s \t\t| SIMB_OR >\n", yytext);
+                        printSymbol(yytext, "OR");
+
+                        return OR;
+                    }
+
+"cos"               {
+                        printf("< %s \t\t| TKN_COS >\n", yytext);
+                        printSymbol(yytext, "COS");
+
+                        return COS;
+                    }
+
+"sen"               {
+                        printf("< %s \t\t| TKN_SEN >\n", yytext);
+                        printSymbol(yytext, "SIN");
+
+                        return SIN;
+                    }
 
 {PALAVRA}           {
                         if (checkReservedWord(yytext)) {
                             printf("< %s \t\t| PALAVRA RESERVADA >\n", yytext);
-                        } else {
-                            printf("< %s \t\t| ID >\n", yytext);
+
+                            return RESERVED;
                         }
+
+                        printf("< %s \t\t| ID >\n", yytext);
+
+                        return ID;
                     }
 
 {COMENTARIO_ABERTO} printf("\n\n< ERRO: COMENTARIO ABERTO >\n\n");
@@ -83,5 +175,11 @@ NUM_ERRADO ([0-9]+\.[0-9]*[a-zA-Z]+([0-9]|[a-zA-Z])*|[0-9]*[a-zA-Z]+([0-9]|[a-zA
 %%
 
 int yywrap(void) {
+    return 1;
+}
+
+int printSymbol(const char * symbol, const char * kind) {
+    printf("< %s \t\t| %s >\n", symbol, kind);
+
     return 1;
 }
