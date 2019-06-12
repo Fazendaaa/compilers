@@ -23,17 +23,9 @@ NUM_ERRADO ([0-9]+\.[0-9]*[a-zA-Z]+([0-9]|[a-zA-Z])*|[0-9]*[a-zA-Z]+([0-9]|[a-zA
 
 %%
 
-{NUMERO}+           {
-                        yylval = atoi(yytext);
+{NUMERO}+           printf("< %d \t\t| NUM >\n",atoi(yytext));
 
-                        return INTEGER;
-                    }
-
-{REAL}              {
-                        yylval = atof(yytext);
-
-                        return DOUBLE;
-                    }
+{REAL}              printf("< %f \t\t| NUM_REAL >\n",atof(yytext));
 
 "*"                 printf("< %s \t\t| SIMB_MULT >\n", yytext);
 
@@ -68,7 +60,11 @@ NUM_ERRADO ([0-9]+\.[0-9]*[a-zA-Z]+([0-9]|[a-zA-Z])*|[0-9]*[a-zA-Z]+([0-9]|[a-zA
 "sen"               printf("< %s \t\t| TKN_SEN >\n", yytext);
 
 {PALAVRA}           {
-                        return checkReservedWord(yytext) ? RESERVED : ID;
+                        if (checkReservedWord(yytext)) {
+                            printf("< %s \t\t| PALAVRA RESERVADA >\n", yytext);
+                        } else {
+                            printf("< %s \t\t| ID >\n", yytext);
+                        }
                     }
 
 {COMENTARIO_ABERTO} printf("\n\n< ERRO: COMENTARIO ABERTO >\n\n");

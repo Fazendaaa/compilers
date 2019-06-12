@@ -15,26 +15,37 @@
     hashtable_t *hashtable;
 %}
 
-%token INTEGER DOUBLE
-%token ID RESERVED VARIABLE
-%token OPERATOR 
+%token VAR          "var"
+%token REAL         "real"
+%token INTEGER      "integer"
+%token BEGIN        "begin"
+%token END          "end"
+%token IF           "if"
+%token ELSE         "else"
+%token THEN         "then"
+%token DO           "do"
+%token UNTIL        "until"
+%token WHILE        "while"
+%token REPEAT       "repeat"
+%token READLN       "readln"
+%token WRITELN      "writeln"
+%token PROGRAM      "program"
+%token PROCEDURE    "procedure"
+%token ERROR        "error"
 
 %%
 
 program:
-    program statement '\n'
+    PROGRAM statement '\n'
     | /* NULL */
     ;
 
 statement:
     expression                      { printf("%d\n", $1); }
-    | VARIABLE '=' expression       { sym[$1] = $3; }
     ;
 
 expression:
     INTEGER
-    | VARIABLE                      { $$ = sym[$1]; }
-    | OPERATOR                      { $$ = sym[$1]; }
     ;
 
 %%

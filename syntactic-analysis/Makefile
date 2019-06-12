@@ -1,5 +1,5 @@
-all: compile
-	@bison -y -d ./src/syntactic.y -o ./src/y.tab.c
+all: clean
+	@bison -Wno-yacc -d ./src/syntactic.y -o ./src/y.tab.c
 	@flex ./src/syntactic.l
 	@# Jerry rig - https://github.com/westes/flex/issues/422
 	@cp ./lex.yy.c ./src
@@ -12,6 +12,9 @@ all: compile
 
 run:
 	@./output
+
+clean:
+	rm ./src/*.o
 
 docker:
 	@docker build -t syntacticanalysis .
