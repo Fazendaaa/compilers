@@ -9,7 +9,7 @@ diego@icmc.usp.br
 
 Trabalho 1 - Analisador léxico
 
-Especificação: desenvolver o analisador léxico para a linguagem LALG, com tratamento de erro. Como exemplo, considere as seguintes entradas e saídas:
+> Especificação: desenvolver o analisador léxico para a linguagem LALG, com tratamento de erro. Como exemplo, considere as seguintes entradas e saídas:
 
 [![first](./img/first.png)]()
 
