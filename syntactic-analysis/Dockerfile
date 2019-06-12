@@ -47,7 +47,6 @@ RUN git clone https://aur.archlinux.org/yay.git && \
 ##
 # RUN sudo pacman -S packageOne packageTwo packageThree ... packageN --noconfirm
 # RUN yay -S packageOne packageTwo packageThree ... packageN --noconfirm
-RUN sudo pacman -S bison --noconfirm
 
 ##
 ## Just a last verification
