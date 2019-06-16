@@ -32,3 +32,5 @@ Caso queira utilizar a imagem do Docker provida basta "compilar" o `Dockerfile` 
 # Referência
 
 - [Lex & Yacc](https://www.epaperpress.com/lexandyacc/)
+- [Lexical Scanning in Go - Rob Pike](https://youtu.be/HxaD_trXwRE)
+- [Write text parsers with yacc and lex](https://developer.ibm.com/tutorials/au-lexyacc/)
